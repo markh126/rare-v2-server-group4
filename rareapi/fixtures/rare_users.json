@@ -1,0 +1,35 @@
+[
+    {
+        "model": "rareapi.user",
+        "pk": 1,
+        "fields": {
+            "bio": "Test",
+            "profile_image_url": "https://img.freepik.com/free-icon/user_318-159711.jpg",
+            "created_on": "2023-06-13",
+            "active": 0,
+            "user_id": 1
+        }
+    },
+    {
+        "model": "rareapi.user",
+        "pk": 2,
+        "fields": {
+            "bio": "Test",
+            "profile_image_url": "https://img.freepik.com/free-icon/user_318-159711.jpg",
+            "created_on": "2023-06-13",
+            "active": 0,
+            "user_id": 2
+        }
+    },
+    {
+        "model": "rareapi.user",
+        "pk": 3,
+        "fields": {
+            "bio": "Test",
+            "profile_image_url": "https://img.freepik.com/free-icon/user_318-159711.jpg",
+            "created_on": "2023-06-13",
+            "active": 0,
+            "user_id": 3
+        }
+    }
+]
