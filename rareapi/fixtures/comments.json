@@ -6,7 +6,7 @@
           "post_id": 1,
           "author_id": 1,
           "content": "hi",
-          "created_on": ""
+          "created_on": "2023-06-13"
       }
   },
   {
@@ -16,7 +16,7 @@
           "post_id": 1,
           "author_id": 2,
           "content": "hi there",
-          "created_on": ""
+          "created_on": "2023-06-13"
       }
   },
   {
@@ -26,7 +26,7 @@
           "post_id": 2,
           "author_id": 3,
           "content": "my comment",
-          "created_on": ""
+          "created_on": "2023-06-13"
       }
   }
 ]

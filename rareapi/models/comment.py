@@ -1,5 +1,5 @@
 from django.db import models
-from .rareuser import RareUser
+from .rare_user import RareUser
 from .post import Post
 
 
