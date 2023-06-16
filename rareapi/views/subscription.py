@@ -2,8 +2,8 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
-from serializers import SubscriptionSerializer
-from models import Subscription
+from rareapi.models.subscription import Subscription
+from rareapi.serializers.subscription_serializer import SubscriptionSerializer 
 
 class SubscriptionView(ViewSet):
     """Subscription views

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import Subscription
+from rareapi.models.subscription import Subscription
 
 class SubscriptionSerializer(serializers.ModelSerializer):
     """JSON serializer for subscriptions

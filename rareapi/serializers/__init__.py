@@ -1,1 +1,1 @@
-from .subscription import SubscriptionSerializer
+from .subscription_serializer import SubscriptionSerializer
