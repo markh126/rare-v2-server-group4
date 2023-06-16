@@ -1,0 +1,26 @@
+[
+  {
+    "model": "rareapi.post",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "title": "Book Title",
+      "author": "Author Name",
+      "publication_date": "2023-06-01",
+      "image_url": "http://example.com/image.jpg",
+      "content": "Book content..."
+    }
+  },
+  {
+    "model": "rareapi.post",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "title": "Another Book Title",
+      "author": "Another Author Name",
+      "publication_date": "2023-06-02",
+      "image_url": "http://example.com/image2.jpg",
+      "content": "Another book content..."
+    }
+  }
+]
