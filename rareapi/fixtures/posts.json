@@ -3,7 +3,7 @@
     "model": "rareapi.post",
     "pk": 1,
     "fields": {
-      "user": 1,
+      "user_id": 1,
       "title": "Book Title",
       "publication_date": "2023-06-01",
       "image_url": "http://example.com/image.jpg",
@@ -14,7 +14,7 @@
     "model": "rareapi.post",
     "pk": 2,
     "fields": {
-      "user": 1,
+      "user_id": 1,
       "title": "Another Book Title",
       "publication_date": "2023-06-02",
       "image_url": "http://example.com/image2.jpg",
