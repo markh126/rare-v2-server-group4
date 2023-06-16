@@ -1,4 +1,4 @@
-from rest_framework import serializers, status
+from rest_framework import serializers
 from models import Subscription
 
 class SubscriptionSerializer(serializers.ModelSerializer):

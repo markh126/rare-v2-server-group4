@@ -1,6 +1,7 @@
 from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
+from rest_framework import status
 from serializers import SubscriptionSerializer
 from models import Subscription
 
@@ -14,7 +15,12 @@ class SubscriptionView(ViewSet):
         Returns:
               Response -- JSON serialized subscription
         """
-        pass
+        try:
+            subscription = Subscription.objects.get(pk=pk)
+            serializer = SubscriptionSerializer(subscription)
+            return Response(serializer.data)
+        except Subscription.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
     
     def list(self, request):
         """Handle GET requests to get all subscriptions
