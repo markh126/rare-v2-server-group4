@@ -28,7 +28,9 @@ class SubscriptionView(ViewSet):
         Returns:
             Response -- JSON serialized list of subscriptions
         """
-        pass
+        subscriptions = Subscription.objects.all()
+        serializer = SubscriptionSerializer(subscriptions, many=True)
+        return Response(serializer.data)
     
     def create(self, request):
         """Handle POST operations
