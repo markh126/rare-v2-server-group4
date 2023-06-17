@@ -95,3 +95,12 @@ class PostView(ViewSet):
             # created_on=DateTime.now()
         )
         return Response({'message': 'Comment Added'}, status=status.HTTP_201_CREATED)
+
+class PostSerializer(serializers.ModelSerializer):
+    """JSON Serializer for posts
+    """
+    class Meta:
+        model = Post
+        fields = ('post_id', 'author_id', 'content', 'created_on')
+
+class CommentSerializer(serializers.ModelSerializer):
