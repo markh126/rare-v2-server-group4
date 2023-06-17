@@ -19,5 +19,4 @@ class CreateRareUserSerializer(serializers.ModelSerializer):
         fields = ('id',
                   'bio',
                   'profile_image_url',
-                  'created_on',
                   'active')
