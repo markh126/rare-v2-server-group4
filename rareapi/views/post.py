@@ -57,10 +57,10 @@ class PostView(ViewSet):
     @action(methods=['post'], detail=True)
     def post_comment(self, request, pk):
         """Post request for a user to post a comment"""
-        user_id = RareUser.objects.get(pk=request.data["user_id"])
+        author_id = RareUser.objects.get(pk=request.data["author_id"])
         post_id = Post.objects.get(pk=pk)
         new_comment = Comment.objects.create(
-            user_id=user_id,
+            author_id=author_id,
             post_id=post_id,
             content=request.data["content"]
         )
