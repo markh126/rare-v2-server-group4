@@ -45,14 +45,12 @@ def register_user(request):
 
     # Now save the user info in the rareapi_user table
     user = User.objects.create(
-        bio=request.data['bio'],
         uid=request.data['uid'],
         first_name = request.data["firstName"],
         last_name = request.data["lastName"],
         email = request.data["email"],
         username = request.data["username"],
-        password = request.data["password"],
-        is_staff = request.data["isStaff"]
+        password = request.data["password"]
     )
 
     # Return the user info to the client
