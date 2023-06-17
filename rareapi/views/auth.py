@@ -51,9 +51,7 @@ def register_user(request):
         last_name = request.data["lastName"],
         bio = request.data["bio"],
         profile_image_url = request.data["profileImageUrl"],
-        email = request.data["email"],
-        username = request.data["username"],
-        password = request.data["password"]
+        email = request.data["email"]
     )
 
     # Return the user info to the client
