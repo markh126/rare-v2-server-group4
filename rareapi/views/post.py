@@ -44,8 +44,6 @@ class PostView(ViewSet):
         post = Post.objects.create(
             title=request.data["title"],
             content=request.data["content"],
-            # change below to datetime.now(), or in model?
-            publication_date=request.data["publicationDate"],
             image_url=request.data["imageUrl"],
             user_id=user_id
         )
@@ -83,11 +81,10 @@ class PostView(ViewSet):
     def add_comment(self, request, pk):
         """Post request for a user to comment on a post"""
 
-        ruid = User.objects.get(uid=request.META["HTTP_AUTHORIZATION"])
-        user = RareUser.objects.get(uid=ruid)
+        user_id = RareUser.objects.get(user_id=request.data["userId"])
         post = Post.objects.get(pk=pk)
         comment = Comment.objects.create(
-            user_id=user,
+            user_id=user_id,
             post_id=post,
             content=request.data["content"]
         )
