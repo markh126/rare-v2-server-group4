@@ -56,11 +56,6 @@ class SubscriptionView(ViewSet):
             Response -- JSON serialized subscription instance
         """
         subscription = Subscription.objects.get(pk=pk)
-        #follower = RareUser.objects.get(pk=request.data["follower_id"])
-        #author = RareUser.objects.get(pk=request.data["author_id"])
-        #subscription.follower_id = follower
-        #subscription.author_id = author
-
         subscription.ended_on = request.data["ended_on"]
         serializer = SubscriptionSerializer(subscription)
         return Response(serializer.data)
@@ -71,4 +66,6 @@ class SubscriptionView(ViewSet):
         Returns:
           Response - Empty body with 204 status code
         """
-        pass
+        subscription = Subscription.objects.get(pk=pk)
+        subscription.delete()
+        return Response({'message': 'Subscription deleted.'})
