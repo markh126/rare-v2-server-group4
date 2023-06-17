@@ -1,4 +1,5 @@
 from django.http import HttpResponseServerError
+from django.db.models import Count
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,7 +11,9 @@ class RareUserView(ViewSet):
     def retrieve(self, request, pk):
         """GET Request for a single rare user"""
         try:
-            rare_users = RareUser.objects.get(pk=pk)
+            rare_users = RareUser.objects.annotate(
+                subscription_count=Count('follower')
+                ).get(pk=pk)
             serializer = RareUserSerializer(rare_users)
             return Response(serializer.data)
         except RareUser.DoesNotExist as ex:
@@ -18,7 +21,9 @@ class RareUserView(ViewSet):
 
     def list(self, request):
         """GET request for a list of rare users"""
-        rare_users = RareUser.objects.all()
+        rare_users = RareUser.objects.annotate(
+            subscription_count=Count('follower')
+            ).all()
         serializer = RareUserSerializer(rare_users, many=True, context={'request': request})
         return Response(serializer.data)
 
