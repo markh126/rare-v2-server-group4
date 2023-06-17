@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rareapi.models import User
+from rareapi.models.rare_user import RareUser
 
 
 @api_view(['POST'])
@@ -14,19 +14,20 @@ def check_user(request):
 
     # Use the built-in authenticate method to verify
     # authenticate returns the user object or None if no user is found
-    user = User.objects.filter(uid=uid).first()
+    rare_user = RareUser.objects.filter(uid=uid).first()
 
     # If authentication was successful, respond with their token
-    if user is not None:
+    if rare_user is not None:
         data = {
-            'id': user.id,
-            'uid': user.uid,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'email': user.email,
-            'username': user.username,
-            'password': user.password,
-            'is_staff': user.is_staff
+            'id': rare_user.id,
+            'uid': rare_user.uid,
+            'first_name': rare_user.first_name,
+            'last_name': rare_user.last_name,
+            'bio': rare_user.bio,
+            'profile_image_url': rare_user.profile_image_url,
+            'email': rare_user.email,
+            'active': rare_user.active,
+            'is_staff': rare_user.is_staff
         }
         return Response(data)
     else:
@@ -44,26 +45,27 @@ def register_user(request):
     '''
 
     # Now save the user info in the rareapi_user table
-    user = User.objects.create(
-        bio=request.data['bio'],
+    rare_user = RareUser.objects.create(
         uid=request.data['uid'],
         first_name = request.data["firstName"],
         last_name = request.data["lastName"],
+        bio = request.data["bio"],
+        profile_image_url = request.data["profileImageUrl"],
         email = request.data["email"],
         username = request.data["username"],
-        password = request.data["password"],
-        is_staff = request.data["isStaff"]
+        password = request.data["password"]
     )
 
     # Return the user info to the client
     data = {
-        'id': user.id,
-        'uid': user.uid,
-        'first_name': user.first_name,
-        'last_name': user.last_name,
-        'email': user.email,
-        'username': user.username,
-        'password': user.password,
-        'is_staff': user.is_staff
+            'id': rare_user.id,
+            'uid': rare_user.uid,
+            'first_name': rare_user.first_name,
+            'last_name': rare_user.last_name,
+            'bio': rare_user.bio,
+            'profile_image_url': rare_user.profile_image_url,
+            'email': rare_user.email,
+            'active': rare_user.active,
+            'is_staff': rare_user.is_staff
     }
     return Response(data)
