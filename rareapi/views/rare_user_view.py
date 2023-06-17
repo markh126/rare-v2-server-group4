@@ -3,7 +3,6 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
 from rareapi.models.rare_user import RareUser
-from rareapi.models.user import User
 from rareapi.serializers.rare_user_serializer import RareUserSerializer, CreateRareUserSerializer
 
 class RareUserView(ViewSet):
@@ -25,20 +24,24 @@ class RareUserView(ViewSet):
 
     def create(self, request):
         """POST request to create a rare user"""
-        user = User.objects.get(uid=request.META["HTTP_AUTHORIZATION"])
+        user = RareUser.objects.get(uid=request.META["HTTP_AUTHORIZATION"])
         serializer = CreateRareUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(user_id=user)
+        serializer.save(uid=user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, pk):
         """PUT request to update a rare user"""
         rare_user = RareUser.objects.get(pk=pk)
-        user = User.objects.get(uid=request.META["HTTP_AUTHORIZATION"])
+        user = RareUser.objects.get(uid=request.META["HTTP_AUTHORIZATION"])
+        rare_user.first_name = request.data['first_name']
+        rare_user.last_name = request.data['last_name']
         rare_user.bio = request.data['bio']
         rare_user.profile_image_url = request.data['profile_image_url']
+        rare_user.email = request.data['email']
         rare_user.active = request.data['active']
-        rare_user.user_id = user
+        rare_user.is_staff = request.data['is_staff']
+        rare_user.uid = user
         rare_user.save()
         return Response({'message': 'Rare User Updated'}, status=status.HTTP_204_NO_CONTENT)
 
