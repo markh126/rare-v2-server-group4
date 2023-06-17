@@ -5,8 +5,8 @@
        "fields": {
           "follower_id": 1,
           "author_id": 2,
-          "created_on": "2023-06-13",
-          "ended_on": "2023-06-14"
+          "created_on": "2023-06-17",
+          "ended_on": null
        }
     },
     {

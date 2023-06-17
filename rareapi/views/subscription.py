@@ -2,8 +2,10 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
+from datetime import date
 from rareapi.models.subscription import Subscription
-from rareapi.serializers.subscription_serializer import SubscriptionSerializer 
+from rareapi.serializers.subscription_serializer import SubscriptionSerializer
+from rareapi.models.rare_user import RareUser
 
 class SubscriptionView(ViewSet):
     """Subscription views
@@ -38,7 +40,14 @@ class SubscriptionView(ViewSet):
         Returns:
             Response -- JSON serialized subscription instance
         """
-        pass
+        follower = RareUser.objects.get(pk=request.data["follower_id"])
+        author = RareUser.objects.get(pk=request.data["author_id"])
+        subscription = Subscription.objects.create(
+            follower_id = follower,
+            author_id = author,
+        )
+        serializer = SubscriptionSerializer(subscription)
+        return Response(serializer.data)
     
     def update(self, request, pk):
         """Handle PUT requests for a subscription
