@@ -55,7 +55,15 @@ class SubscriptionView(ViewSet):
         Returns:
             Response -- JSON serialized subscription instance
         """
-        pass
+        subscription = Subscription.objects.get(pk=pk)
+        #follower = RareUser.objects.get(pk=request.data["follower_id"])
+        #author = RareUser.objects.get(pk=request.data["author_id"])
+        #subscription.follower_id = follower
+        #subscription.author_id = author
+
+        subscription.ended_on = request.data["ended_on"]
+        serializer = SubscriptionSerializer(subscription)
+        return Response(serializer.data)
     
     def destroy(self, request, pk):
         """Handles DELETE requests for a subscription
