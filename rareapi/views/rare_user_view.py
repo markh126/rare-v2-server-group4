@@ -24,16 +24,16 @@ class RareUserView(ViewSet):
 
     def create(self, request):
         """POST request to create a rare user"""
-        user = RareUser.objects.get(uid=request.META["HTTP_AUTHORIZATION"])
+        uid = request.META["HTTP_AUTHORIZATION"]
         serializer = CreateRareUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(uid=user)
+        serializer.save(uid=uid)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, pk):
         """PUT request to update a rare user"""
         rare_user = RareUser.objects.get(pk=pk)
-        user = RareUser.objects.get(uid=request.META["HTTP_AUTHORIZATION"])
+        uid = request.META["HTTP_AUTHORIZATION"]
         rare_user.first_name = request.data['first_name']
         rare_user.last_name = request.data['last_name']
         rare_user.bio = request.data['bio']
@@ -41,7 +41,7 @@ class RareUserView(ViewSet):
         rare_user.email = request.data['email']
         rare_user.active = request.data['active']
         rare_user.is_staff = request.data['is_staff']
-        rare_user.uid = user
+        rare_user.uid = uid
         rare_user.save()
         return Response({'message': 'Rare User Updated'}, status=status.HTTP_204_NO_CONTENT)
 
