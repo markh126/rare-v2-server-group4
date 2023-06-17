@@ -3,7 +3,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import serializers, status
-from rareapi.models import Post, Comment, RareUser
+from rareapi.models import Post, Comment, RareUser, User
 
 class PostView(ViewSet):
     """Level up posts view"""
@@ -29,8 +29,6 @@ class PostView(ViewSet):
             Response -- JSON serialized list of posts
         """
         posts = Post.objects.all()
-        uid = request.META['HTTP_AUTHORIZATION']
-        user = RareUser.objects.get(uid=uid)
 
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
@@ -85,14 +83,13 @@ class PostView(ViewSet):
     def add_comment(self, request, pk):
         """Post request for a user to comment on a post"""
 
-        uid = request.META['HTTP_AUTHORIZATION']
-        user = RareUser.objects.get(uid=uid)
+        ruid = User.objects.get(uid=request.META["HTTP_AUTHORIZATION"])
+        user = RareUser.objects.get(uid=ruid)
         post = Post.objects.get(pk=pk)
         comment = Comment.objects.create(
             user_id=user,
             post_id=post,
-            content=request.data["content"],
-            # created_on=DateTime.now()
+            content=request.data["content"]
         )
         return Response({'message': 'Comment Added'}, status=status.HTTP_201_CREATED)
 
@@ -101,6 +98,11 @@ class PostSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Post
-        fields = ('post_id', 'author_id', 'content', 'created_on')
+        fields = ('user_id', 'title', 'publication_date', 'image_url', 'content')
 
 class CommentSerializer(serializers.ModelSerializer):
+    """JSON Serializer for comments
+    """
+    class Meta:
+        model = Comment
+        fields = ('post_id', 'author_id', 'content', 'created_on')
