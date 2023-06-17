@@ -6,17 +6,24 @@ class RareUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = RareUser
         fields = ('id',
+                  'first_name',
+                  'last_name',
                   'bio',
                   'profile_image_url',
+                  'email',
                   'created_on',
                   'active',
-                  'user_id')
+                  'is_staff',
+                  'uid')
 
 class CreateRareUserSerializer(serializers.ModelSerializer):
     """JSON serializer for creating rare users"""
     class Meta:
         model = RareUser
         fields = ('id',
+                  'first_name',
+                  'last_name',
                   'bio',
                   'profile_image_url',
+                  'email',
                   'active')
