@@ -31,6 +31,8 @@ class SubscriptionView(ViewSet):
             Response -- JSON serialized list of subscriptions
         """
         subscriptions = Subscription.objects.all()
+        user = request.query_params.get('user')
+        subscriptions = subscriptions.filter(follower_id = user)
         serializer = SubscriptionSerializer(subscriptions, many=True)
         return Response(serializer.data)
     
