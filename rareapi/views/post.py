@@ -73,11 +73,11 @@ class PostView(ViewSet):
         comments = Comment.objects.all()
         post_comments = comments.filter(post_id=pk)
         
-        serializer = CommentSerializer(post_coments, many=True)
+        serializer = CommentSerializer(post_comments, many=True)
         return Response(serializer.data)
         
         
-class CommentSerializer(seralizers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     """JSON serializer for comments"""
     class Meta:
         model = Comment
