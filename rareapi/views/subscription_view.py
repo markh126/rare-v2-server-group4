@@ -42,8 +42,8 @@ class SubscriptionView(ViewSet):
         Returns:
             Response -- JSON serialized subscription instance
         """
-        follower = RareUser.objects.get(pk=request.data["follower_id"])
-        author = RareUser.objects.get(pk=request.data["author_id"])
+        follower = RareUser.objects.get(pk=request.data["followerId"])
+        author = RareUser.objects.get(pk=request.data["authorId"])
         subscription = Subscription.objects.create(
             follower_id = follower,
             author_id = author,
