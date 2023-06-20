@@ -2,9 +2,10 @@ from django.http import HttpResponseServerError
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from rareapi.models import Post, RareUser
-from rareapi.serializers import PostSerializer
+from rareapi.models import Post, RareUser, Comment
+from rareapi.serializers import PostSerializer, CommentSerializer
 from django.db import models
+from rest_framework.decorators import action
 
 
 class PostView(ViewSet):
@@ -52,3 +53,27 @@ class PostView(ViewSet):
       post = Post.objects.get(pk=pk)
       post.delete()
       return Response(None, status=status.HTTP_204_NO_CONTENT)
+  
+    @action(methods=['post'], detail=True)
+    def post_comment(self, request, pk):
+        """Post request for a user to post a comment"""
+        author_id = RareUser.objects.get(pk=request.data["author_id"])
+        post_id = Post.objects.get(pk=pk)
+        new_comment = Comment.objects.create(
+            author_id=author_id,
+            post_id=post_id,
+            content=request.data["content"]
+        )
+        return Response({'message': 'Comment posted'}, status=status.HTTP_201_CREATED)
+    
+    @action(methods=['get'], detail=True)
+    def comments(self, request, pk):
+        """Get request for a user to see all 
+        comments for a post"""
+        comments = Comment.objects.all()
+        post_comments = comments.filter(post_id=pk)
+        
+        serializer = CommentSerializer(post_comments, many=True)
+        return Response(serializer.data)
+        
+        
