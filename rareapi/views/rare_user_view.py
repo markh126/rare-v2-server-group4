@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rareapi.models.rare_user import RareUser
 from rareapi.serializers.rare_user_serializer import RareUserSerializer, CreateRareUserSerializer
+from rareapi.models.subscription import Subscription
+from rareapi.serializers.subscription_serializer import SubscriptionSerializer
+from rest_framework.decorators import action
 
 class RareUserView(ViewSet):
     """Rare API Rare Users"""
@@ -39,13 +42,13 @@ class RareUserView(ViewSet):
         """PUT request to update a rare user"""
         rare_user = RareUser.objects.get(pk=pk)
         uid = request.META["HTTP_AUTHORIZATION"]
-        rare_user.first_name = request.data['first_name']
-        rare_user.last_name = request.data['last_name']
+        rare_user.first_name = request.data['firstName']
+        rare_user.last_name = request.data['lastName']
         rare_user.bio = request.data['bio']
-        rare_user.profile_image_url = request.data['profile_image_url']
+        rare_user.profile_image_url = request.data['profileImageUrl']
         rare_user.email = request.data['email']
-        rare_user.active = request.data['active']
-        rare_user.is_staff = request.data['is_staff']
+        #rare_user.active = request.data['active']
+        #rare_user.is_staff = request.data['is_staff']
         rare_user.uid = uid
         rare_user.save()
         return Response({'message': 'Rare User Updated'}, status=status.HTTP_204_NO_CONTENT)
@@ -55,3 +58,18 @@ class RareUserView(ViewSet):
         rare_user = RareUser.objects.get(pk=pk)
         rare_user.delete()
         return Response({'message': 'Rare User Destroyed'}, status=status.HTTP_204_NO_CONTENT)
+
+    @action(methods=['post'], detail=True)
+    def check_subscription(self, request, pk):
+        """Check if a user is subscribed to another user
+        """
+        follower = request.data['followerId']
+        try:
+            subscription = Subscription.objects.get(
+                follower_id = follower,
+                author_id = pk,
+                ended_on__isnull = True
+            )
+            return Response(True)
+        except Subscription.DoesNotExist:
+            return Response(False)

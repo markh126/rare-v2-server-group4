@@ -7,6 +7,7 @@ from rareapi.models.subscription import Subscription
 from rareapi.serializers.subscription_serializer import SubscriptionSerializer
 from rareapi.models.rare_user import RareUser
 
+
 class SubscriptionView(ViewSet):
     """Subscription views
     """
@@ -60,6 +61,7 @@ class SubscriptionView(ViewSet):
         subscription = Subscription.objects.get(pk=pk)
         subscription.ended_on = request.data["ended_on"]
         serializer = SubscriptionSerializer(subscription)
+        subscription.save()
         return Response(serializer.data)
     
     def destroy(self, request, pk):
