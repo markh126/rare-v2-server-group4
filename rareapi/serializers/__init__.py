@@ -2,3 +2,4 @@ from .subscription_serializer import SubscriptionSerializer
 from .rare_user_serializer import RareUserSerializer, CreateRareUserSerializer
 from .rare_user_serializer import RareUserSerializer, CreateRareUserSerializer
 from.post import PostSerializer
+from .comment_serializer import CommentSerializer
