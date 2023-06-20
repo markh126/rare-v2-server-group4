@@ -25,11 +25,11 @@ class PostView(ViewSet):
          return Response(serializer.data)
  
     def create(self, request):
-        user_id = RareUser.objects.get(pk=request.data["user_id"])
+        user_id = RareUser.objects.get(pk=request.data["userId"])
         
         post =Post(
           title=request.data["title"],
-          image_url=request.data["image_url"],
+          image_url=request.data["imageUrl"],
           content=request.data["content"],
           user_id=user_id,
         )
