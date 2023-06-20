@@ -25,14 +25,14 @@ class SubscriptionView(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
     
     def list(self, request):
-        """Handle GET requests to get all subscriptions
+        """Handle GET requests to get all subscriptions by user id
 
         Returns:
             Response -- JSON serialized list of subscriptions
         """
         subscriptions = Subscription.objects.all()
         user = request.query_params.get('user')
-        subscriptions = subscriptions.filter(follower_id = user)
+        subscriptions = subscriptions.filter(follower_id = user, ended_on__isnull = True)
         serializer = SubscriptionSerializer(subscriptions, many=True)
         return Response(serializer.data)
     
