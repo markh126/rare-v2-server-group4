@@ -67,7 +67,7 @@ class PostView(ViewSet):
         return Response({'message': 'Comment posted'}, status=status.HTTP_201_CREATED)
     
     @action(methods=['get'], detail=True)
-    def get_comments(self, request, pk):
+    def comments(self, request, pk):
         """Get request for a user to see all 
         comments for a post"""
         comments = Comment.objects.all()
