@@ -33,3 +33,13 @@ class CommentView(ViewSet):
       except Comment.DoesNotExist as ex:
           return Response({'message': ex.args[0]}, status=status.
           HTTP_404_NOT_FOUND)
+    
+    def destroy(self, request, pk):
+      """Handle DELETE requests for single comment
+      
+      Returns: 
+          Response -- empty body with 204 status code
+      """
+      comment = Comment.objects.get(pk=pk)
+      comment.delete()
+      return Response(None, status=status.HTTP_204_NO_CONTENT)
