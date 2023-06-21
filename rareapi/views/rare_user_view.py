@@ -66,10 +66,11 @@ class RareUserView(ViewSet):
         follower = request.data['followerId']
         try:
             subscription = Subscription.objects.get(
-                follower_id = follower,
-                author_id = pk,
-                ended_on__isnull = True
-            )
-            return Response(True)
+                    follower_id = follower,
+                    author_id = pk,
+                    ended_on__isnull = True
+                )
+            serializer = SubscriptionSerializer(subscription)
+            return Response(serializer.data)
         except Subscription.DoesNotExist:
             return Response(False)

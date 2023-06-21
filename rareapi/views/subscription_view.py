@@ -6,6 +6,7 @@ from datetime import date
 from rareapi.models.subscription import Subscription
 from rareapi.serializers.subscription_serializer import SubscriptionSerializer
 from rareapi.models.rare_user import RareUser
+from rest_framework.decorators import action
 
 
 class SubscriptionView(ViewSet):
@@ -59,7 +60,7 @@ class SubscriptionView(ViewSet):
             Response -- JSON serialized subscription instance
         """
         subscription = Subscription.objects.get(pk=pk)
-        subscription.ended_on = request.data["ended_on"]
+        subscription.ended_on = request.data["endedOn"]
         serializer = SubscriptionSerializer(subscription)
         subscription.save()
         return Response(serializer.data)
