@@ -47,8 +47,8 @@ class RareUserView(ViewSet):
         rare_user.bio = request.data['bio']
         rare_user.profile_image_url = request.data['profileImageUrl']
         rare_user.email = request.data['email']
-        #rare_user.active = request.data['active']
-        #rare_user.is_staff = request.data['is_staff']
+        # rare_user.active = request.data['active']
+        # rare_user.is_staff = request.data['is_staff']
         rare_user.uid = uid
         rare_user.save()
         return Response({'message': 'Rare User Updated'}, status=status.HTTP_204_NO_CONTENT)
