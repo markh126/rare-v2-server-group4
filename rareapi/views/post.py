@@ -41,7 +41,7 @@ class PostView(ViewSet):
     def update(self, request, pk):
         post = Post.objects.filter(pk=pk).first()
         post.title = request.data.get("title", post.title)
-        post.image_url = request.data.get("image_url", post.image_url)
+        post.image_url = request.data.get("imageUrl", post.image_url)
         post.content = request.data.get("content", post.content)
         
         post.save()
