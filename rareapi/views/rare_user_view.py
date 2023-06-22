@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rareapi.models.rare_user import RareUser
 from rareapi.serializers.rare_user_serializer import RareUserSerializer, CreateRareUserSerializer
+from rareapi.models.subscription import Subscription
+from rareapi.serializers.subscription_serializer import SubscriptionSerializer
+from rest_framework.decorators import action
 
 class RareUserView(ViewSet):
     """Rare API Rare Users"""
@@ -55,3 +58,19 @@ class RareUserView(ViewSet):
         rare_user = RareUser.objects.get(pk=pk)
         rare_user.delete()
         return Response({'message': 'Rare User Destroyed'}, status=status.HTTP_204_NO_CONTENT)
+
+    @action(methods=['post'], detail=True)
+    def check_subscription(self, request, pk):
+        """Check if a user is subscribed to another user
+        """
+        follower = request.data['followerId']
+        try:
+            subscription = Subscription.objects.get(
+                    follower_id = follower,
+                    author_id = pk,
+                    ended_on__isnull = True
+                )
+            serializer = SubscriptionSerializer(subscription)
+            return Response(serializer.data)
+        except Subscription.DoesNotExist:
+            return Response(False)

@@ -6,6 +6,8 @@ from datetime import date
 from rareapi.models.subscription import Subscription
 from rareapi.serializers.subscription_serializer import SubscriptionSerializer
 from rareapi.models.rare_user import RareUser
+from rest_framework.decorators import action
+
 
 class SubscriptionView(ViewSet):
     """Subscription views
@@ -25,12 +27,14 @@ class SubscriptionView(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
     
     def list(self, request):
-        """Handle GET requests to get all subscriptions
+        """Handle GET requests to get all subscriptions by user id
 
         Returns:
             Response -- JSON serialized list of subscriptions
         """
         subscriptions = Subscription.objects.all()
+        user = request.query_params.get('user')
+        subscriptions = subscriptions.filter(follower_id = user, ended_on__isnull = True)
         serializer = SubscriptionSerializer(subscriptions, many=True)
         return Response(serializer.data)
     
@@ -40,8 +44,8 @@ class SubscriptionView(ViewSet):
         Returns:
             Response -- JSON serialized subscription instance
         """
-        follower = RareUser.objects.get(pk=request.data["follower_id"])
-        author = RareUser.objects.get(pk=request.data["author_id"])
+        follower = RareUser.objects.get(pk=request.data["followerId"])
+        author = RareUser.objects.get(pk=request.data["authorId"])
         subscription = Subscription.objects.create(
             follower_id = follower,
             author_id = author,
@@ -56,8 +60,9 @@ class SubscriptionView(ViewSet):
             Response -- JSON serialized subscription instance
         """
         subscription = Subscription.objects.get(pk=pk)
-        subscription.ended_on = request.data["ended_on"]
+        subscription.ended_on = request.data["endedOn"]
         serializer = SubscriptionSerializer(subscription)
+        subscription.save()
         return Response(serializer.data)
     
     def destroy(self, request, pk):
