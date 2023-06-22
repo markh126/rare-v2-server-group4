@@ -1,5 +1,5 @@
 from django.http import HttpResponseServerError
-from django.db.models import Count
+from django.db.models import Count, Q
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,7 +15,7 @@ class RareUserView(ViewSet):
         """GET Request for a single rare user"""
         try:
             rare_users = RareUser.objects.annotate(
-                subscription_count=Count('follower')
+                subscription_count=Count('author', filter=Q(author__ended_on__isnull=True))
                 ).get(pk=pk)
             serializer = RareUserSerializer(rare_users)
             return Response(serializer.data)
@@ -25,7 +25,7 @@ class RareUserView(ViewSet):
     def list(self, request):
         """GET request for a list of rare users"""
         rare_users = RareUser.objects.annotate(
-            subscription_count=Count('follower')
+            subscription_count=Count('author', filter=Q(author__ended_on__isnull=True))
             ).all()
         serializer = RareUserSerializer(rare_users, many=True, context={'request': request})
         return Response(serializer.data)
