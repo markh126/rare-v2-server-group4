@@ -25,11 +25,11 @@ class PostView(ViewSet):
          return Response(serializer.data)
  
     def create(self, request):
-        user_id = RareUser.objects.get(pk=request.data["user_id"])
+        user_id = RareUser.objects.get(pk=request.data["userId"])
         
         post =Post(
           title=request.data["title"],
-          image_url=request.data["image_url"],
+          image_url=request.data["imageUrl"],
           content=request.data["content"],
           user_id=user_id,
         )
@@ -41,7 +41,7 @@ class PostView(ViewSet):
     def update(self, request, pk):
         post = Post.objects.filter(pk=pk).first()
         post.title = request.data.get("title", post.title)
-        post.image_url = request.data.get("image_url", post.image_url)
+        post.image_url = request.data.get("imageUrl", post.image_url)
         post.content = request.data.get("content", post.content)
         
         post.save()
