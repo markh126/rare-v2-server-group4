@@ -5,5 +5,5 @@ class CommentSerializer(serializers.ModelSerializer):
     """JSON serializer for comments"""
     class Meta:
         model = Comment
-        fields = ('content', 'author_id', 'post_id', 'created_on')
-        depth = 1
+        fields = ('id', 'content', 'author_id', 'post_id', 'created_on')
+        depth = 0
