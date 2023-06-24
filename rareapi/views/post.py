@@ -21,6 +21,8 @@ class PostView(ViewSet):
     def list(self,request):
          
          posts = Post.objects.all()
+         user = request.query_params.get('user')
+         posts = posts.filter(user_id = user)
          serializer = PostSerializer(posts, many=True)
          return Response(serializer.data)
  
